@@ -17,6 +17,7 @@ ARRANQUE_FILE = HERE / "guia" / "arranque.txt"
 # Nova animação: entrada aqui + bloco data-anim no splash.html + BMP (ver docs/receitas.md, receita 5b).
 ANIMACOES = {
     "cafe": ("Café", "cafe.bmp", 280, 280),
+    "sxp": ("SXP", "sxp.bmp", 576, 214),  # SXP-LOCAL: só na versão da empresa, nunca no Morg Keys original (ADR 0002)
 }
 ANIM_CY = 0.38
 

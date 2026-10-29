@@ -3,7 +3,7 @@
 # Para abrir este ficheiro: Documentos\Guia de Atalhos\arranque.txt
 # As mudanças valem no próximo arranque (reinicie ou termine a sessão).
 #
-# ANIMAÇÃO do ecrã de arranque:   cafe  (por agora a única)
+# ANIMAÇÃO do ecrã de arranque:   cafe | sxp
 #   Alt+Esc e depois E: segurar mostra-a (tocar passa à seguinte, se houver mais).
 animacao = {{ANIMACAO}}
 #

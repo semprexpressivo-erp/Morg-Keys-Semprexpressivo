@@ -1,4 +1,4 @@
-﻿# Gera 2-configuracao (modelos) a partir da configuração ativa DESTE PC (~\.glzr).
+# Gera 2-configuracao (modelos) a partir da configuração ativa DESTE PC (~\.glzr).
 # Corra depois de mudar a configuração aqui, para o pacote levar as mudanças.
 # Só funciona com a estrutura do Morg Keys (um só pack, com guia\ e arranque\);
 # se ~\.glzr tiver outra estrutura, para sem tocar em nada.
@@ -19,6 +19,7 @@ $files = @(
   "$p\vendor\zebar-3.3.1.mjs",
   "$p\guia\guia.html", "$p\guia\sistema.html", "$p\guia\apps.txt",
   "$p\arranque\splash.html", "$p\arranque\cafe.bmp",
+  "$p\arranque\sxp.bmp",  # SXP-LOCAL (só na versão da empresa, nunca no Morg Keys original, ADR 0002)
   "$p\painel\apps.html"
 )
 # Verifica tudo ANTES de apagar os modelos atuais.

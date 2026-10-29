@@ -185,7 +185,7 @@ $linhasBat = @()
 if ($manterArranque) {
   Info 'Reinstalação: mantém o arranque.txt atual (animação e programas). Mude-o lá se quiser.'
 } else {
-  if (-not $Animacao) { $Animacao = 'cafe' }
+  if (-not $Animacao) { $Animacao = 'sxp' }  # SXP-LOCAL: na versão da empresa a animação por omissão é o logótipo
   Info "Animação: $Animacao"
 
   function ValidarBat($caminho, $endereco, $nome) {

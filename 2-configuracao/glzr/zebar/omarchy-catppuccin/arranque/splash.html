@@ -42,6 +42,19 @@
       }
       #cshine { opacity: 0; }
 
+      /* --- SXP-LOCAL (só na versão da empresa, nunca no Morg Keys original: ADR 0002) ---
+         Logótipo SXP: igual ao sxp.bmp (576×214, centro a 38 % da altura). */
+      body.a-sxp #sxp { display: block; }
+      body.a-sxp { --c: #4ab8ea; }
+      body.a-sxp #list { top: calc(38% + 150px); }
+      #sxp { width: 576px; height: 213.12px; left: calc(50% - 288px); top: calc(38% - 107px); }
+      #sxp .xp { transition: transform 700ms cubic-bezier(0.2, 0.9, 0.25, 1), opacity 350ms; }
+      #sxp .lt { transition: transform 800ms cubic-bezier(0.2, 0.9, 0.25, 1), opacity 600ms; }
+      #sxp .bar { transform-box: fill-box; transform-origin: center;
+                  transition: transform 700ms cubic-bezier(0.2, 0.9, 0.25, 1); }
+      #sshine { opacity: 0; }
+      /* --- fim SXP-LOCAL --- */
+
       /* Lista de etapas no estilo do guia (Alt+K) e do painel (Alt+Esc):
          cartão escuro, ícone em caixinha com a cor da animação e, à direita,
          o estado numa "tecla" escura (a rodar enquanto carrega, ✓ no fim). */
@@ -103,6 +116,24 @@
         </g>
       </svg>
 
+      <!-- SXP-LOCAL (só na versão da empresa, nunca no Morg Keys original: ADR 0002).
+           Animação "sxp": o logótipo desmonta-se e volta a montar-se, com um brilho.
+           Começa MONTADO, igual ao sxp.bmp: se mudar um, mude o outro. -->
+      <svg id="sxp" class="anim" data-anim="sxp" viewBox="0 0 2000 740" role="img" aria-label="SXP">
+        <path class="lt" id="sxpS" fill="#f4f8fb" d="M165 130 L650 130 L752 235 L235 235 Q132 235 132 280 Q132 322 235 322 L600 322 Q715 330 715 440 L715 500 Q702 608 598 608 L12 608 L100 512 L560 512 Q606 512 606 466 Q606 420 560 420 L172 420 Q26 410 26 276 Q26 130 165 130 Z"/>
+        <path class="lt" id="sxpP" fill="#f4f8fb" d="M1322 235 L1430 130 L1850 130 Q1992 130 1992 276 Q1992 424 1850 428 L1507 428 L1507 608 L1405 608 L1405 330 L1832 330 Q1886 330 1886 282 Q1886 235 1832 235 Z"/>
+        <g fill="#4ab8ea">
+          <polygon class="xp" data-dx="-260" data-dy="-200" points="693,132 903,132 1121,333 918,333"/>
+          <polygon class="xp" data-dx="260" data-dy="-260" points="1288,2 1490,2 1167,337 1065,236"/>
+          <polygon class="xp" data-dx="-260" data-dy="230" points="918,361 1119,361 864,608 669,608"/>
+          <polygon class="xp" data-dx="260" data-dy="230" points="1166,355 1419,608 1218,608 1064,457"/>
+          <rect class="bar" x="6" y="716" width="166" height="18"/>
+          <rect class="bar" x="1834" y="716" width="166" height="18"/>
+        </g>
+        <polygon id="sshine" fill="#ffffff" fill-opacity="0.35" points="600,0 680,0 380,740 300,740"/>
+      </svg>
+      <!-- fim SXP-LOCAL -->
+
       <div id="list"></div>
     </div>
 
@@ -152,6 +183,45 @@
             return setInterval(() => !leaving && sweep($('cshine'), 360, 1200), CYCLE_MS);
           },
         },
+        // SXP-LOCAL (só na versão da empresa, nunca no Morg Keys original: ADR 0002).
+        // 1.º quadro: tudo montado, sem transições (= sxp.bmp). Ciclo: brilho; a cada
+        // CYCLE_MS desmonta-se e volta a montar.
+        sxp: {
+          first() {
+            const all = q('#sxp .xp, #sxp .lt, #sxp .bar');
+            all.forEach(e => { e.style.transition = 'none'; });
+            q('#sxp .xp, #sxp .lt').forEach(e => { e.style.opacity = 1; e.style.transform = 'none'; });
+            q('#sxp .bar').forEach(b => { b.style.transform = 'scaleX(1)'; });
+            void document.body.offsetWidth;
+            all.forEach(e => { e.style.transition = ''; });
+          },
+          start() {
+            const EASE_IN = 'transform 420ms cubic-bezier(0.55, 0, 0.9, 0.5), opacity 300ms ease-in 120ms';
+            const disassemble = () => {
+              q('#sxp .xp').forEach(p => { p.style.transition = EASE_IN; p.style.opacity = 0;
+                p.style.transform = `translate(${p.dataset.dx}px,${p.dataset.dy}px)`; });
+              [['sxpS', -120], ['sxpP', 120]].forEach(([id, dx]) => { const e = $(id); e.style.transition = EASE_IN;
+                e.style.opacity = 0; e.style.transform = `translateX(${dx}px)`; });
+              q('#sxp .bar').forEach(b => { b.style.transition = 'transform 300ms ease-in'; b.style.transform = 'scaleX(0)'; });
+            };
+            const assemble = () => {
+              q('#sxp .xp, #sxp .lt, #sxp .bar').forEach(e => { e.style.transition = ''; });
+              q('#sxp .xp').forEach((p, i) => {
+                setTimeout(() => { p.style.opacity = 1; p.style.transform = 'none'; }, i * 130);
+              });
+              setTimeout(() => [$('sxpS'), $('sxpP')].forEach(e => { e.style.opacity = 1; e.style.transform = 'none'; }), 650);
+              setTimeout(() => q('#sxp .bar').forEach(b => { b.style.transform = 'scaleX(1)'; }), 1150);
+              setTimeout(() => sweep($('sshine'), 1500, 1100), 1550);
+            };
+            setTimeout(() => sweep($('sshine'), 1500, 1100), 300);
+            return setInterval(() => {
+              if (leaving) return;
+              disassemble();
+              setTimeout(() => !leaving && assemble(), 520);
+            }, CYCLE_MS);
+          },
+        },
+        // fim SXP-LOCAL
       };
 
       // --- Lista de etapas (progresso real) ---
